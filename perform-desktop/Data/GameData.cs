@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace perform_desktop.Data
+﻿namespace perform_desktop.Data
 {
-    public record struct IntRange
+    public readonly record struct IntRange(int Min, int Max)
     {
-        public int Min;
-        public int Max;
+        public override string ToString()
+        {
+            return $"{Min}-{Max}";
+        }
     }
 
     public record struct KeyAmount
@@ -33,6 +28,7 @@ namespace perform_desktop.Data
 
     public class MoveData
     {
+        public string Key { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
 
         public float SuccessChance { get; set; }
@@ -55,5 +51,24 @@ namespace perform_desktop.Data
         public MoveData[] Moves = [];
         public StatData[] Stats = [];
         public TokenData[] Tokens = [];
+
+        public KeyAmount[] StartingStats = [];
+        public KeyAmount[] StartingItems = [];
+
+        public int StartingActionPoints;
+
+        public StatData? GetStat(string key)
+        {
+            return Stats.FirstOrDefault(data => data.Key == key);
+        }
+
+        public TokenData? GetTokens(string key)
+        {
+            return Tokens.FirstOrDefault(data => data.Key == key);
+        }
+        public MoveData? GetMove(string key)
+        {
+            return Moves.FirstOrDefault(data => data.Key == key);
+        }
     }
 }

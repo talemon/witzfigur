@@ -1,6 +1,7 @@
 {
   "Moves": [
     {
+      "Key": "joke-easy",
       "Name": "Easy Joke",
       "SuccessChance": 0.7,
       "StatRequirements": [],
@@ -39,6 +40,7 @@
       "ActionPoints": 1
     },
     {
+      "Key": "joke-hard",
       "Name": "Hard Joke",
       "SuccessChance": 0.5,
       "StatRequirements": [],
@@ -90,7 +92,17 @@
   "Tokens": [
     {
       "Key": "failure",
-      "Name": "Failure"
+      "Name": "Failure Token"
     }
-  ]
+  ],
+  "StartingStats": [
+    {
+      "Key": "attention",
+      "Amount": 100
+    }
+  ],
+  "StartingItems": [
+
+  ],
+  "StartingActionPoints":  20
 }

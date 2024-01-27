@@ -1,60 +1,57 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Windows;
+using System.Text;
 using Newtonsoft.Json;
-using System.Windows.Input;
 using perform_desktop.Data;
 
 namespace perform_desktop
 {
-    public class StatData
-    {
-        public string Name { get; set; }
-    }
-    public class ItemData
-    {
-        public string Name { get; set; }
-    }
-
-    public class StatValue
-    {
-        public string StatKey { get; set; }
-        public int Amount { get; set; }
-    }
-
-    public class InventoryItem
-    {
-        public ItemData Item { get; set; }
-        public int Amount { get; set; }
-    }
-
-
     public class MainViewModel : INotifyPropertyChanged
     {
-        private int _score;
-        private List<MoveData> _moves = [];
-        private int _laughter;
-        private int _confusion;
-        private int _attention;
-        private string _logContent = string.Empty;
+        private List<MoveViewModel> _moves = [];
+        private StringBuilder _logContent = new StringBuilder();
+        private ClearLogCommand? _clearLogCommand;
+        private MoveViewModel? _selectedMove;
+        private PerformCommand _performCommand;
+        private GameData? _gameData;
+
+        private GameState _state;
 
         public MainViewModel()
         {
             const string gamedataJson = "gamedata.json";
             if (File.Exists(gamedataJson))
             {
-                var gameData = JsonConvert.DeserializeObject<GameData>(File.ReadAllText(gamedataJson));
+                _gameData = JsonConvert.DeserializeObject<GameData>(File.ReadAllText(gamedataJson));
 
-                if (gameData != null)
+                if (_gameData != null)
                 {
-                    Moves = [..gameData.Moves];
+                    foreach (var move in _gameData.Moves)
+                    {
+                        Moves.Add(MoveViewModel.Make(move, _gameData));
+                    }
+
+                    _state = new GameState(_gameData);
+
+                    foreach (var statPair in _gameData.StartingStats)
+                    {
+                        State.TryModifyStat(statPair.Key, statPair.Amount);
+                    }
+                    foreach (var itemPair in _gameData.StartingItems)
+                    {
+                        State.TryModifyInventory(itemPair.Key, itemPair.Amount);
+                    }
+                    State.ActionPoints = _gameData.StartingActionPoints;
                 }
             }
+
+            _clearLogCommand = new ClearLogCommand(this);
+            _performCommand = new PerformCommand(this);
+
         }
 
-        public List<MoveData> Moves
+        public List<MoveViewModel> Moves
         {
             get => _moves;
             set
@@ -65,60 +62,45 @@ namespace perform_desktop
             }
         }
 
-        public int Score
-        {
-            get => _score;
-            set
-            {
-                if (value == _score) return;
-                _score = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public int Laughter
-        {
-            get => _laughter;
-            set
-            {
-                if (value == _laughter) return;
-                _laughter = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public int Confusion
-        {
-            get => _confusion;
-            set
-            {
-                if (value == _confusion) return;
-                _confusion = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public int Attention
-        {
-            get => _attention;
-            set
-            {
-                if (value == _attention) return;
-                _attention = value;
-                OnPropertyChanged();
-            }
-        }
-
         public string LogContent
         {
-            get => _logContent;
+            get => _logContent.ToString();
+        }
+
+        public ClearLogCommand? ClearLogCommand
+        {
+            get => _clearLogCommand;
             set
             {
-                if (value == _logContent) return;
-                _logContent = value;
+                if (Equals(value, _clearLogCommand)) return;
+                _clearLogCommand = value;
                 OnPropertyChanged();
             }
         }
+
+        public MoveViewModel? SelectedMove
+        {
+            get => _selectedMove;
+            set
+            {
+                if (Equals(value, _selectedMove)) return;
+                _selectedMove = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public PerformCommand PerformCommand
+        {
+            get => _performCommand;
+            set
+            {
+                if (Equals(value, _performCommand)) return;
+                _performCommand = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public GameState State => _state;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -133,6 +115,90 @@ namespace perform_desktop
             field = value;
             OnPropertyChanged(propertyName);
             return true;
+        }
+
+        private void LogText(string str)
+        {
+            _logContent.AppendLine(str);
+            OnPropertyChanged(nameof(LogContent));
+        }
+
+        public void ClearLog()
+        {
+            _logContent.Clear();
+            OnPropertyChanged(nameof(LogContent));
+        }
+
+        public bool CanPerform(string key)
+        {
+            var move = _gameData?.GetMove(key);
+            if (move != null)
+            {
+                if (State.ActionPoints < move.ActionPoints)
+                    return false;
+
+                foreach (var statReq in move.StatRequirements)
+                {
+                    if (State.GetStatAmount(statReq.Key) < statReq.Amount)
+                        return false;
+                }
+
+                foreach (var itemReq in move.ItemRequirements)
+                {
+                    if (State.GetItemAmount(itemReq.Key) < itemReq.Amount)
+                        return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public void Perform(string key)
+        {
+            var move = _gameData?.GetMove(key);
+
+            if (move == null || CanPerform(key) == false)
+                return;
+
+            State.ActionPoints -= move.ActionPoints;
+
+            if (Random.Shared.NextSingle() < move.SuccessChance)
+            {
+                LogText("Succes!");
+                foreach (var statBenefit in move.StatBenefits)
+                {
+                    State.TryModifyStat(statBenefit.Key, statBenefit.Amount);
+                }
+                foreach (var tokenBenefit in move.ItemBenefits)
+                {
+                    State.TryModifyInventory(tokenBenefit.Key, tokenBenefit.Amount);
+                }
+
+                State.Score += Random.Shared.Next(move.Score.Min, move.Score.Max);
+            }
+            else // FAIL
+            {
+                LogText("Fail!");
+                foreach (var statEffect in move.FailureStatEffects)
+                {
+                    State.TryModifyStat(statEffect.Key, statEffect.Amount);
+                }
+                foreach (var itemEffect in move.FailureItemEffects)
+                {
+                    State.TryModifyInventory(itemEffect.Key, itemEffect.Amount);
+                }
+            }
+
+            if (State.ActionPoints <= 0)
+            {
+                LogText("GAME OVER!");
+            }
+
+            OnPropertyChanged(nameof(State));
         }
     }
 }

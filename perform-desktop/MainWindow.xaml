@@ -10,55 +10,39 @@
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
-    <Window.Resources>
-        <Style x:Key="ButtonRadioButtonStyle" TargetType="{x:Type RadioButton}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type RadioButton}">
-                        <ToggleButton Content="{TemplateBinding Content}" IsChecked="{Binding Path=IsChecked, Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ItemsControl ItemsSource="{Binding Moves}" Grid.Row="0">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <RadioButton GroupName="Moves" Style="{DynamicResource ButtonRadioButtonStyle}" Margin="5">
-                        <Label Content="{Binding Name}"/>
-                    </RadioButton>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        <TextBox Grid.Row="1" Text="{Binding LogContent}"/>
-        <WrapPanel Grid.Row="2">
-            <WrapPanel Margin="5">
-                <TextBlock Margin="5,0">Score</TextBlock>
-                <TextBlock Text="{Binding Score}"/>
-            </WrapPanel>
-            <WrapPanel Margin="5">
-                <TextBlock Margin="5,0">Laughter</TextBlock>
-                <TextBlock Text="{Binding Laughter}"/>
-            </WrapPanel>
-            <WrapPanel Margin="5">
-                <TextBlock Margin="5,0">Confusion</TextBlock>
-                <TextBlock Text="{Binding Confusion}"/>
-            </WrapPanel>
-            <WrapPanel Margin="5">
-                <TextBlock Margin="5,0">Attention</TextBlock>
-                <TextBlock Text="{Binding Attention}"/>
-            </WrapPanel>
+        <ListView ItemsSource="{Binding Moves}" SelectedItem="{Binding SelectedMove}" Grid.Row="0">
+            <ListView.View>
+                <GridView AllowsColumnReorder="true">
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding ActionPoints}" Header="Action Points"/>
+                    <GridViewColumn Header="Stat Requirements" DisplayMemberBinding="{Binding StatRequirements}"/>
+                    <GridViewColumn Header="Item Requirements" DisplayMemberBinding="{Binding ItemRequirements}"/>
+                    <GridViewColumn Header="Stat Benefits" DisplayMemberBinding="{Binding StatBenefits}"/>
+                    <GridViewColumn Header="Item Benefits" DisplayMemberBinding="{Binding ItemBenefits}"/>
+                    <GridViewColumn Header="Failure Stat Effects" DisplayMemberBinding="{Binding FailureStatEffects}"/>
+                    <GridViewColumn Header="Failure Item Effects" DisplayMemberBinding="{Binding FailureItemEffects}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <WrapPanel Grid.Row="1">
+            <Button Content="Perform" Margin="5" Command="{Binding PerformCommand}"/>
         </WrapPanel>
+        <TextBox Grid.Row="2" Text="{Binding  Path=LogContent, Mode=OneWay}" IsReadOnly="True">
+            <TextBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Clear" Command="{Binding ClearLogCommand}"/>
+                </ContextMenu>
+            </TextBox.ContextMenu>
+        </TextBox>
+        <StatusBar Grid.Row="3">
+            <TextBlock Text="{Binding State}"/>
+        </StatusBar>
     </Grid>
 </Window>
