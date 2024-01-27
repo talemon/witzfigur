@@ -1,0 +1,64 @@
+﻿<Window x:Class="perform_desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:perform_desktop"
+        mc:Ignorable="d"
+        
+        Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <local:MainViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <Style x:Key="ButtonRadioButtonStyle" TargetType="{x:Type RadioButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <ToggleButton Content="{TemplateBinding Content}" IsChecked="{Binding Path=IsChecked, Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ItemsControl ItemsSource="{Binding Moves}" Grid.Row="0">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <RadioButton GroupName="Moves" Style="{DynamicResource ButtonRadioButtonStyle}" Margin="5">
+                        <Label Content="{Binding Name}"/>
+                    </RadioButton>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <TextBox Grid.Row="1" Text="{Binding LogContent}"/>
+        <WrapPanel Grid.Row="2">
+            <WrapPanel Margin="5">
+                <TextBlock Margin="5,0">Score</TextBlock>
+                <TextBlock Text="{Binding Score}"/>
+            </WrapPanel>
+            <WrapPanel Margin="5">
+                <TextBlock Margin="5,0">Laughter</TextBlock>
+                <TextBlock Text="{Binding Laughter}"/>
+            </WrapPanel>
+            <WrapPanel Margin="5">
+                <TextBlock Margin="5,0">Confusion</TextBlock>
+                <TextBlock Text="{Binding Confusion}"/>
+            </WrapPanel>
+            <WrapPanel Margin="5">
+                <TextBlock Margin="5,0">Attention</TextBlock>
+                <TextBlock Text="{Binding Attention}"/>
+            </WrapPanel>
+        </WrapPanel>
+    </Grid>
+</Window>

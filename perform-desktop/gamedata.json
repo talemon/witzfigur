@@ -1,0 +1,96 @@
+{
+  "Moves": [
+    {
+      "Name": "Easy Joke",
+      "SuccessChance": 0.7,
+      "StatRequirements": [],
+      "ItemRequirements": [],
+      "ItemBenefits": [],
+      "StatBenefits": [
+        {
+          "Key": "attention",
+          "Amount": 5
+        },
+        {
+          "Key": "confusion",
+          "Amount": -10
+        }
+      ],
+      "FailureItemEffects": [
+        {
+          "Key": "failure",
+          "Amount": 1
+        }
+      ],
+      "FailureStatEffects": [
+        {
+          "Key": "attention",
+          "Amount": -10
+        },
+        {
+          "Key": "confusion",
+          "Amount": 10
+        }
+      ],
+      "Score": {
+        "Min": 5,
+        "Max": 10
+      },
+      "ActionPoints": 1
+    },
+    {
+      "Name": "Hard Joke",
+      "SuccessChance": 0.5,
+      "StatRequirements": [],
+      "ItemRequirements": [],
+      "ItemBenefits": [],
+      "StatBenefits": [
+        {
+          "Key": "attention",
+          "Amount": 5
+        },
+        {
+          "Key": "confusion",
+          "Amount": -10
+        }
+      ],
+      "FailureItemEffects": [
+        {
+          "Key": "failure",
+          "Amount": 1
+        }
+      ],
+      "FailureStatEffects": [
+        {
+          "Key": "attention",
+          "Amount": -10
+        },
+        {
+          "Key": "confusion",
+          "Amount": 10
+        }
+      ],
+      "Score": {
+        "Min": 5,
+        "Max": 10
+      },
+      "ActionPoints": 1
+    }
+  ],
+  "Stats": [
+    {
+      "Key": "attention",
+      "Name": "Attention"
+    },
+    {
+      "Key": "confusion",
+      "Name": "Confusion"
+    }
+  ],
+  "Tokens": [
+    {
+      "Key": "failure",
+      "Name": "Failure"
+    }
+  ]
+}
