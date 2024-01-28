@@ -12,6 +12,7 @@ public class PerformCommand : ICommand
         _viewModel = viewModel;
 
         _viewModel.PropertyChanged += OnViewModelPropertyChanged;
+        _viewModel.Performed += () => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -24,7 +25,7 @@ public class PerformCommand : ICommand
 
     public bool CanExecute(object? parameter)
     {
-        return _viewModel.SelectedMove != null && _viewModel.CanPerform(_viewModel.SelectedMove.Key);
+        return _viewModel.State != null && _viewModel.SelectedMove != null && _viewModel.State.CanPerform(_viewModel.SelectedMove.Key);
     }
 
     public void Execute(object? parameter)

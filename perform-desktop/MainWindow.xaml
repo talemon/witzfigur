@@ -10,39 +10,47 @@
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <ListView ItemsSource="{Binding Moves}" SelectedItem="{Binding SelectedMove}" Grid.Row="0">
-            <ListView.View>
-                <GridView AllowsColumnReorder="true">
-                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding ActionPoints}" Header="Action Points"/>
-                    <GridViewColumn Header="Stat Requirements" DisplayMemberBinding="{Binding StatRequirements}"/>
-                    <GridViewColumn Header="Item Requirements" DisplayMemberBinding="{Binding ItemRequirements}"/>
-                    <GridViewColumn Header="Stat Benefits" DisplayMemberBinding="{Binding StatBenefits}"/>
-                    <GridViewColumn Header="Item Benefits" DisplayMemberBinding="{Binding ItemBenefits}"/>
-                    <GridViewColumn Header="Failure Stat Effects" DisplayMemberBinding="{Binding FailureStatEffects}"/>
-                    <GridViewColumn Header="Failure Item Effects" DisplayMemberBinding="{Binding FailureItemEffects}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <WrapPanel Grid.Row="1">
-            <Button Content="Perform" Margin="5" Command="{Binding PerformCommand}"/>
-        </WrapPanel>
-        <TextBox Grid.Row="2" Text="{Binding  Path=LogContent, Mode=OneWay}" IsReadOnly="True">
-            <TextBox.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Clear" Command="{Binding ClearLogCommand}"/>
-                </ContextMenu>
-            </TextBox.ContextMenu>
-        </TextBox>
-        <StatusBar Grid.Row="3">
-            <TextBlock Text="{Binding State}"/>
-        </StatusBar>
-    </Grid>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="Restart" Command="{Binding RestartGameCommand}"/>
+                <MenuItem Header="_Quit" Command="{Binding QuitCommand}"/>
+            </MenuItem>
+        </Menu>
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ListView ItemsSource="{Binding Moves}" SelectedItem="{Binding SelectedMove}" Grid.Row="0">
+                <ListView.View>
+                    <GridView AllowsColumnReorder="true">
+                        <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding ActionPoints}" Header="Action Points"/>
+                        <GridViewColumn Header="Stat Requirements" DisplayMemberBinding="{Binding StatRequirements}"/>
+                        <GridViewColumn Header="Item Requirements" DisplayMemberBinding="{Binding ItemRequirements}"/>
+                        <GridViewColumn Header="Stat Benefits" DisplayMemberBinding="{Binding StatBenefits}"/>
+                        <GridViewColumn Header="Item Benefits" DisplayMemberBinding="{Binding ItemBenefits}"/>
+                        <GridViewColumn Header="Failure Stat Effects" DisplayMemberBinding="{Binding FailureStatEffects}"/>
+                        <GridViewColumn Header="Failure Item Effects" DisplayMemberBinding="{Binding FailureItemEffects}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <WrapPanel Grid.Row="1">
+                <Button Content="Perform" Margin="5" Command="{Binding PerformCommand}"/>
+            </WrapPanel>
+            <TextBox Grid.Row="2" Text="{Binding  Path=LogContent, Mode=OneWay}" IsReadOnly="True">
+                <TextBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Clear" Command="{Binding ClearLogCommand}"/>
+                    </ContextMenu>
+                </TextBox.ContextMenu>
+            </TextBox>
+            <StatusBar Grid.Row="3">
+                <TextBlock Text="{Binding State}"/>
+            </StatusBar>
+        </Grid>
+    </DockPanel>
 </Window>
