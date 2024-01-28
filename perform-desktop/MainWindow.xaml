@@ -13,7 +13,8 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="Restart" Command="{Binding RestartGameCommand}"/>
+                <MenuItem Header="_New Game" Command="{Binding RestartGameCommand}"/>
+                <MenuItem Header="_Reload Data" Command="{Binding ReloadDataCommand}"/>
                 <MenuItem Header="_Quit" Command="{Binding QuitCommand}"/>
             </MenuItem>
         </Menu>
@@ -48,8 +49,8 @@
                     </ContextMenu>
                 </TextBox.ContextMenu>
             </TextBox>
-            <StatusBar Grid.Row="3">
-                <TextBlock Text="{Binding State}"/>
+            <StatusBar Grid.Row="3" Height="100">
+                <TextBlock Text="{Binding State}" FontSize="25"/>
             </StatusBar>
         </Grid>
     </DockPanel>

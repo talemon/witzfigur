@@ -59,7 +59,7 @@ public class GameState(GameData gameData)
 
         foreach (var itemPair in _tokens)
         {
-            var name = gameData.GetStat(itemPair.Key)?.Name ?? itemPair.Key;
+            var name = gameData.GetTokens(itemPair.Key)?.Name ?? itemPair.Key;
             str.Append($"{name}: {itemPair.Value} ");
         }
 

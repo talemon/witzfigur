@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -11,7 +12,7 @@ namespace perform_desktop
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        private List<MoveViewModel> _moves = [];
+        private ObservableCollection<MoveViewModel> _moves = [];
         private readonly StringBuilder _logContent = new();
         private ClearLogCommand? _clearLogCommand;
         private MoveViewModel? _selectedMove;
@@ -22,38 +23,24 @@ namespace perform_desktop
 
         public MainViewModel()
         {
-            const string gamedataJson = "gamedata.json";
-            if (File.Exists(gamedataJson))
-            {
-                _gameData = JsonConvert.DeserializeObject<GameData>(File.ReadAllText(gamedataJson));
-
-                if (_gameData != null)
-                {
-                    foreach (var move in _gameData.Moves)
-                    {
-                        Moves.Add(MoveViewModel.Make(move, _gameData));
-                    }
-
-                    _state = new GameState(_gameData);
-
-                    InitializeState(_state, _gameData);
-                }
-            }
+            ReloadData();
 
             _clearLogCommand = new ClearLogCommand(this);
             _performCommand = new PerformCommand(this);
             QuitCommand = new RelayCommand(_ =>
             {
-                if (Application.Current.MainWindow != null) Application.Current.MainWindow.Close();
+                if (Application.Current.MainWindow != null) 
+                    Application.Current.MainWindow.Close();
             });
 
             RestartGameCommand = new RelayCommand(_ =>
             {
-                Debug.Assert(_gameData != null, nameof(_gameData) + " != null");
-                _state = new GameState(_gameData);
-                InitializeState(_state, _gameData);
-                OnPropertyChanged(nameof(State));
-                ClearLog();
+                RestartGame();
+            });
+
+            ReloadDataCommand = new RelayCommand(_ =>
+            {
+                ReloadData();
             });
         }
 
@@ -70,9 +57,38 @@ namespace perform_desktop
             gameState.ActionPoints = gameData.StartingActionPoints;
         }
 
+        private void RestartGame()
+        {
+            Debug.Assert(_gameData != null, nameof(_gameData) + " != null");
+            _state = new GameState(_gameData);
+            InitializeState(_state, _gameData);
+            OnPropertyChanged(nameof(State));
+            ClearLog();
+        }
+
+        private void ReloadData()
+        {
+            const string gamedataJson = "gamedata.json";
+            if (File.Exists(gamedataJson))
+            {
+                _gameData = JsonConvert.DeserializeObject<GameData>(File.ReadAllText(gamedataJson));
+
+                if (_gameData != null)
+                {
+                    Moves.Clear();
+                    foreach (var move in _gameData.Moves)
+                    {
+                        Moves.Add(MoveViewModel.Make(move, _gameData));
+                    }
+
+                    RestartGame();
+                }
+            }
+        }
+
         public event Action? Performed;
 
-        public List<MoveViewModel> Moves
+        public ObservableCollection<MoveViewModel> Moves
         {
             get => _moves;
             set
@@ -120,6 +136,7 @@ namespace perform_desktop
 
         public RelayCommand QuitCommand { get; }
         public RelayCommand RestartGameCommand { get; }
+        public RelayCommand ReloadDataCommand { get; }
 
         public GameState? State => _state;
 
