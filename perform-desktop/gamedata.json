@@ -14,7 +14,7 @@
           "Amount": -100
         },
         {
-          "Key": "laughter",
+          "Key": "laugh",
           "Amount": 0
         }
       ],
@@ -74,7 +74,7 @@
           "Amount": -30
         },
         {
-          "Key": "laughter",
+          "Key": "laugh",
           "Amount": 5
         }
       ],
@@ -134,7 +134,7 @@
           "Amount": -50
         },
         {
-          "Key": "laughter",
+          "Key": "laugh",
           "Amount": 0
         }
       ],
@@ -194,7 +194,7 @@
           "Amount": -80
         },
         {
-          "Key": "laughter",
+          "Key": "laugh",
           "Amount": 0
         }
       ],
@@ -235,7 +235,7 @@
           "Amount": 30
         },
         {
-          "Key": "laughter",
+          "Key": "laugh",
           "Amount": -100
         }
       ],
@@ -259,7 +259,7 @@
           "Amount": -80
         },
         {
-          "Key": "laughter",
+          "Key": "laugh",
           "Amount": 0
         }
       ],
@@ -324,7 +324,7 @@
           "Amount": -50
         },
         {
-          "Key": "laughter",
+          "Key": "laugh",
           "Amount": 0
         }
       ],
@@ -365,7 +365,7 @@
           "Amount": 20
         },
         {
-          "Key": "laughter",
+          "Key": "laugh",
           "Amount": -100
         }
       ],
@@ -389,7 +389,7 @@
           "Amount": -20
         },
         {
-          "Key": "laughter",
+          "Key": "laugh",
           "Amount": 0
         }
       ],
@@ -455,10 +455,12 @@
         }
       ],
       "ItemRequirements": [],
-      "ItemBenefits": {
-        "Key": "setup",
-        "Amount": 1
-      },
+      "ItemBenefits": [
+        {
+          "Key": "setup",
+          "Amount": 1
+        }
+      ],
       "StatBenefits": [
         {
           "Key": "attention",
@@ -496,10 +498,12 @@
         }
       ],
       "ItemRequirements": [],
-      "ItemBenefits": {
-        "Key": "crowdwork",
-        "Amount": 1
-      },
+      "ItemBenefits": [
+        {
+          "Key": "crowdwork",
+          "Amount": 1
+        }
+      ],
       "StatBenefits": [
         {
           "Key": "attention",
@@ -537,10 +541,12 @@
         }
       ],
       "ItemRequirements": [],
-      "ItemBenefits": {
-        "Key": "explainer",
-        "Amount": 1
-      },
+      "ItemBenefits": [
+        {
+          "Key": "explainer",
+          "Amount": 1
+        }
+      ],
       "StatBenefits": [
         {
           "Key": "attention",
@@ -578,10 +584,12 @@
         }
       ],
       "ItemRequirements": [],
-      "ItemBenefits": {
-        "Key": "story",
-        "Amount": 1
-      },
+      "ItemBenefits": [
+        {
+          "Key": "story",
+          "Amount": 1
+        }
+      ],
       "StatBenefits": [
         {
           "Key": "attention",
@@ -613,6 +621,10 @@
     {
       "Key": "confusion",
       "Name": "Confusion"
+    },
+    {
+      "Key": "laugh",
+      "Name": "Laughter"
     }
   ],
   "Tokens": [

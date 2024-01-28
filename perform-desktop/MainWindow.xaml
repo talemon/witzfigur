@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:perform_desktop"
         mc:Ignorable="d"
         
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="750" Width="1200">
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>

@@ -161,7 +161,7 @@ namespace perform_desktop
 
             if (Random.Shared.NextSingle() < move.SuccessChance)
             {
-                LogText("Succes!");
+                LogText($"{move.Name} Succes!");
                 foreach (var statBenefit in move.StatBenefits)
                 {
                     _state.TryModifyStat(statBenefit.Key, statBenefit.Amount);
@@ -171,11 +171,19 @@ namespace perform_desktop
                     _state.TryModifyInventory(tokenBenefit.Key, tokenBenefit.Amount);
                 }
 
-                _state.Score += Random.Shared.Next(move.Score.Min, move.Score.Max);
+                var score = Random.Shared.Next(move.Score.Min, move.Score.Max);
+                var laughter = _state.GetStatAmount("laugh");
+                double chance = laughter * laughter * 0.00005f;
+                if (Random.Shared.NextDouble() < chance)
+                {
+                    LogText("CRITICAL!");
+                    score *= 2;
+                }
+                _state.Score += score;
             }
             else // FAIL
             {
-                LogText("Fail!");
+                LogText($"{move.Name} Fail!");
                 foreach (var statEffect in move.FailureStatEffects)
                 {
                     _state.TryModifyStat(statEffect.Key, statEffect.Amount);

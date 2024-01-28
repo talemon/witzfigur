@@ -76,7 +76,12 @@ public class GameState(GameData gameData)
 
             foreach (var statReq in move.StatRequirements)
             {
-                if (GetStatAmount(statReq.Key) < statReq.Amount)
+                if (statReq.Amount < 0)
+                {
+                    if (GetStatAmount(statReq.Key) > Math.Abs(statReq.Amount))
+                        return false;
+                }
+                else if (GetStatAmount(statReq.Key) < statReq.Amount)
                     return false;
             }
 
