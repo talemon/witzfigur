@@ -204,7 +204,12 @@
           "Amount": 1
         }
       ],
-      "ItemBenefits": [],
+      "ItemBenefits": [
+        {
+        "Key": "setup",
+        "Amount": -1
+      }
+      ],
       "StatBenefits": [
         {
           "Key": "attention",
@@ -223,6 +228,10 @@
         {
           "Key": "failure",
           "Amount": 1
+        },
+        {
+          "Key": "setup",
+          "Amount": -1
         }
       ],
       "FailureStatEffects": [
@@ -269,7 +278,12 @@
           "Amount": 1
         }
       ],
-      "ItemBenefits": [],
+      "ItemBenefits": [
+        {
+        "Key": "failure",
+        "Amount": -1
+      }
+      ],
       "StatBenefits": [
         {
           "Key": "attention",
@@ -288,6 +302,10 @@
         {
           "Key": "failure",
           "Amount": 1
+        },
+        {
+          "Key": "failure",
+          "Amount": -1
         }
       ],
       "FailureStatEffects": [
@@ -334,7 +352,12 @@
           "Amount": 1
         }
       ],
-      "ItemBenefits": [],
+      "ItemBenefits": [
+        {
+        "Key": "crowdwork",
+        "Amount": -1
+      }
+      ],
       "StatBenefits": [
         {
           "Key": "attention",
@@ -353,6 +376,10 @@
         {
           "Key": "failure",
           "Amount": 1
+        },
+        {
+          "Key": "crowdwork",
+          "Amount": -1
         }
       ],
       "FailureStatEffects": [
@@ -399,7 +426,12 @@
           "Amount": 1
         }
       ],
-      "ItemBenefits": [],
+      "ItemBenefits": [
+        {
+        "Key": "story",
+        "Amount": -1
+      }
+      ],
       "StatBenefits": [
         {
           "Key": "attention",
@@ -418,6 +450,10 @@
         {
           "Key": "failure",
           "Amount": 1
+        },
+        {
+          "Key": "story",
+          "Amount": -1
         }
       ],
       "FailureStatEffects": [
