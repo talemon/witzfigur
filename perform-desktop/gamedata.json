@@ -3,7 +3,7 @@
     {
       "Key": "joke-easy",
       "Name": "Easy Joke",
-      "SuccessChance": 0.7,
+      "SuccessChance": 0.8,
       "StatRequirements": [
         {
           "Key": "attention",
@@ -63,11 +63,11 @@
     {
       "Key": "joke-hard",
       "Name": "Hard Joke",
-      "SuccessChance": 0.5,
+      "SuccessChance": 0.4,
       "StatRequirements": [
         {
           "Key": "attention",
-          "Amount": 30
+          "Amount": 60
         },
         {
           "Key": "confusion",
@@ -123,7 +123,7 @@
     {
       "Key": "joke-risky",
       "Name": "Risky Joke",
-      "SuccessChance": 0.1,
+      "SuccessChance": 0.15,
       "StatRequirements": [
         {
           "Key": "attention",
@@ -151,7 +151,7 @@
         },
         {
           "Key": "laugh",
-          "Amount": 15
+          "Amount": 20
         }
       ],
       "FailureItemEffects": [
@@ -176,14 +176,14 @@
       ],
       "Score": {
         "Min": 30,
-        "Max": 70
+        "Max": 100
       },
       "ActionPoints": 1
     },
     {
       "Key": "joke-followupjoke",
       "Name": "Follow-Up Joke",
-      "SuccessChance": 0.4,
+      "SuccessChance": 0.5,
       "StatRequirements": [
         {
           "Key": "attention",
@@ -257,7 +257,7 @@
     {
       "Key": "joke-recovery",
       "Name": "Recovery Joke",
-      "SuccessChance": 0.3,
+      "SuccessChance": 0.4,
       "StatRequirements": [
         {
           "Key": "attention",
@@ -331,7 +331,7 @@
     {
       "Key": "joke-personal",
       "Name": "Personal Joke",
-      "SuccessChance": 0.5,
+      "SuccessChance": 0.6,
       "StatRequirements": [
         {
           "Key": "attention",
@@ -405,7 +405,7 @@
     {
       "Key": "joke-callback",
       "Name": "Callback Joke",
-      "SuccessChance": 0.7,
+      "SuccessChance": 0.8,
       "StatRequirements": [
         {
           "Key": "attention",
@@ -500,7 +500,7 @@
       "StatBenefits": [
         {
           "Key": "attention",
-          "Amount": 20
+          "Amount": -20
         },
         {
           "Key": "confusion",
@@ -586,7 +586,7 @@
       "StatBenefits": [
         {
           "Key": "attention",
-          "Amount": -5
+          "Amount": -20
         },
         {
           "Key": "confusion",
@@ -684,7 +684,7 @@
   "StartingStats": [
     {
       "Key": "attention",
-      "Amount": 100
+      "Amount": 80
     }
   ],
   "StartingItems": [],
