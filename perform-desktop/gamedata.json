@@ -4,7 +4,20 @@
       "Key": "joke-easy",
       "Name": "Easy Joke",
       "SuccessChance": 0.7,
-      "StatRequirements": [],
+      "StatRequirements": [
+        {
+          "Key": "attention",
+          "Amount": 30
+        },
+        {
+          "Key": "confusion",
+          "Amount": -100
+        },
+        {
+          "Key": "laughter",
+          "Amount": 0
+        }
+      ],
       "ItemRequirements": [],
       "ItemBenefits": [],
       "StatBenefits": [
@@ -14,7 +27,11 @@
         },
         {
           "Key": "confusion",
-          "Amount": -10
+          "Amount": -5
+        },
+        {
+          "Key": "laugh",
+          "Amount": 5
         }
       ],
       "FailureItemEffects": [
@@ -31,6 +48,10 @@
         {
           "Key": "confusion",
           "Amount": 10
+        },
+        {
+          "Key": "laugh",
+          "Amount": -100
         }
       ],
       "Score": {
@@ -43,7 +64,20 @@
       "Key": "joke-hard",
       "Name": "Hard Joke",
       "SuccessChance": 0.5,
-      "StatRequirements": [],
+      "StatRequirements": [
+        {
+          "Key": "attention",
+          "Amount": 30
+        },
+        {
+          "Key": "confusion",
+          "Amount": -30
+        },
+        {
+          "Key": "laughter",
+          "Amount": 5
+        }
+      ],
       "ItemRequirements": [],
       "ItemBenefits": [],
       "StatBenefits": [
@@ -53,7 +87,71 @@
         },
         {
           "Key": "confusion",
-          "Amount": -10
+          "Amount": -15
+        },
+        {
+          "Key": "laugh",
+          "Amount": 20
+        }
+      ],
+      "FailureItemEffects": [
+        {
+          "Key": "failure",
+          "Amount": 1
+        }
+      ],
+      "FailureStatEffects": [
+        {
+          "Key": "attention",
+          "Amount": -5
+        },
+        {
+          "Key": "confusion",
+          "Amount": 15
+        },
+        {
+          "Key": "laugh",
+          "Amount": -100
+        }
+      ],
+      "Score": {
+        "Min": 45,
+        "Max": 70
+      },
+      "ActionPoints": 4
+    },
+    {
+      "Key": "joke-risky",
+      "Name": "Risky Joke",
+      "SuccessChance": 0.1,
+      "StatRequirements": [
+        {
+          "Key": "attention",
+          "Amount": 30
+        },
+        {
+          "Key": "confusion",
+          "Amount": -50
+        },
+        {
+          "Key": "laughter",
+          "Amount": 0
+        }
+      ],
+      "ItemRequirements": [],
+      "ItemBenefits": [],
+      "StatBenefits": [
+        {
+          "Key": "attention",
+          "Amount": 10
+        },
+        {
+          "Key": "confusion",
+          "Amount": 5
+        },
+        {
+          "Key": "laugh",
+          "Amount": 15
         }
       ],
       "FailureItemEffects": [
@@ -69,14 +167,442 @@
         },
         {
           "Key": "confusion",
-          "Amount": 10
+          "Amount": 30
+        },
+        {
+          "Key": "laugh",
+          "Amount": -100
         }
       ],
       "Score": {
-        "Min": 5,
-        "Max": 10
+        "Min": 30,
+        "Max": 70
       },
       "ActionPoints": 1
+    },
+    {
+      "Key": "joke-followupjoke",
+      "Name": "Follow-Up Joke",
+      "SuccessChance": 0.4,
+      "StatRequirements": [
+        {
+          "Key": "attention",
+          "Amount": 50
+        },
+        {
+          "Key": "confusion",
+          "Amount": -80
+        },
+        {
+          "Key": "laughter",
+          "Amount": 0
+        }
+      ],
+      "ItemRequirements": [
+        {
+          "Key": "setup",
+          "Amount": 1
+        }
+      ],
+      "ItemBenefits": [],
+      "StatBenefits": [
+        {
+          "Key": "attention",
+          "Amount": -5
+        },
+        {
+          "Key": "confusion",
+          "Amount": -5
+        },
+        {
+          "Key": "laugh",
+          "Amount": 5
+        }
+      ],
+      "FailureItemEffects": [
+        {
+          "Key": "failure",
+          "Amount": 1
+        }
+      ],
+      "FailureStatEffects": [
+        {
+          "Key": "attention",
+          "Amount": -5
+        },
+        {
+          "Key": "confusion",
+          "Amount": 30
+        },
+        {
+          "Key": "laughter",
+          "Amount": -100
+        }
+      ],
+      "Score": {
+        "Min": 40,
+        "Max": 65
+      },
+      "ActionPoints": 2
+    },
+    {
+      "Key": "joke-recovery",
+      "Name": "Recovery Joke",
+      "SuccessChance": 0.3,
+      "StatRequirements": [
+        {
+          "Key": "attention",
+          "Amount": 50
+        },
+        {
+          "Key": "confusion",
+          "Amount": -80
+        },
+        {
+          "Key": "laughter",
+          "Amount": 0
+        }
+      ],
+      "ItemRequirements": [
+        {
+          "Key": "failure",
+          "Amount": 1
+        }
+      ],
+      "ItemBenefits": [],
+      "StatBenefits": [
+        {
+          "Key": "attention",
+          "Amount": 5
+        },
+        {
+          "Key": "confusion",
+          "Amount": -15
+        },
+        {
+          "Key": "laugh",
+          "Amount": 30
+        }
+      ],
+      "FailureItemEffects": [
+        {
+          "Key": "failure",
+          "Amount": 1
+        }
+      ],
+      "FailureStatEffects": [
+        {
+          "Key": "attention",
+          "Amount": 5
+        },
+        {
+          "Key": "confusion",
+          "Amount": 15
+        },
+        {
+          "Key": "laugh",
+          "Amount": -100
+        }
+      ],
+      "Score": {
+        "Min": 10,
+        "Max": 25
+      },
+      "ActionPoints": 3
+    },
+    {
+      "Key": "joke-personal",
+      "Name": "Personal Joke",
+      "SuccessChance": 0.5,
+      "StatRequirements": [
+        {
+          "Key": "attention",
+          "Amount": 40
+        },
+        {
+          "Key": "confusion",
+          "Amount": -50
+        },
+        {
+          "Key": "laughter",
+          "Amount": 0
+        }
+      ],
+      "ItemRequirements": [
+        {
+          "Key": "crowdwork",
+          "Amount": 1
+        }
+      ],
+      "ItemBenefits": [],
+      "StatBenefits": [
+        {
+          "Key": "attention",
+          "Amount": 10
+        },
+        {
+          "Key": "confusion",
+          "Amount": -5
+        },
+        {
+          "Key": "laugh",
+          "Amount": 10
+        }
+      ],
+      "FailureItemEffects": [
+        {
+          "Key": "failure",
+          "Amount": 1
+        }
+      ],
+      "FailureStatEffects": [
+        {
+          "Key": "attention",
+          "Amount": -5
+        },
+        {
+          "Key": "confusion",
+          "Amount": 20
+        },
+        {
+          "Key": "laughter",
+          "Amount": -100
+        }
+      ],
+      "Score": {
+        "Min": 50,
+        "Max": 60
+      },
+      "ActionPoints": 2
+    },
+    {
+      "Key": "joke-callback",
+      "Name": "Callback Joke",
+      "SuccessChance": 0.7,
+      "StatRequirements": [
+        {
+          "Key": "attention",
+          "Amount": 70
+        },
+        {
+          "Key": "confusion",
+          "Amount": -20
+        },
+        {
+          "Key": "laughter",
+          "Amount": 0
+        }
+      ],
+      "ItemRequirements": [
+        {
+          "Key": "story",
+          "Amount": 1
+        }
+      ],
+      "ItemBenefits": [],
+      "StatBenefits": [
+        {
+          "Key": "attention",
+          "Amount": 5
+        },
+        {
+          "Key": "confusion",
+          "Amount": 5
+        },
+        {
+          "Key": "laugh",
+          "Amount": 10
+        }
+      ],
+      "FailureItemEffects": [
+        {
+          "Key": "failure",
+          "Amount": 1
+        }
+      ],
+      "FailureStatEffects": [
+        {
+          "Key": "attention",
+          "Amount": -10
+        },
+        {
+          "Key": "confusion",
+          "Amount": 20
+        },
+        {
+          "Key": "laugh",
+          "Amount": -100
+        }
+      ],
+      "Score": {
+        "Min": 60,
+        "Max": 80
+      },
+      "ActionPoints": 2
+    },
+    {
+      "Key": "setup",
+      "Name": "Setup",
+      "SuccessChance": 1,
+      "StatRequirements": [
+        {
+          "Key": "attention",
+          "Amount": 20
+        },
+        {
+          "Key": "confusion",
+          "Amount": -70
+        }
+      ],
+      "ItemRequirements": [],
+      "ItemBenefits": {
+        "Key": "setup",
+        "Amount": 1
+      },
+      "StatBenefits": [
+        {
+          "Key": "attention",
+          "Amount": 20
+        },
+        {
+          "Key": "confusion",
+          "Amount": 5
+        },
+        {
+          "Key": "laugh",
+          "Amount": -100
+        }
+      ],
+      "FailureItemEffects": [],
+      "FailureStatEffects": [],
+      "Score": {
+        "Min": 0,
+        "Max": 0
+      },
+      "ActionPoints": 2
+    },
+    {
+      "Key": "crowdwork",
+      "Name": "Crowd Work",
+      "SuccessChance": 1,
+      "StatRequirements": [
+        {
+          "Key": "attention",
+          "Amount": 15
+        },
+        {
+          "Key": "confusion",
+          "Amount": -80
+        }
+      ],
+      "ItemRequirements": [],
+      "ItemBenefits": {
+        "Key": "crowdwork",
+        "Amount": 1
+      },
+      "StatBenefits": [
+        {
+          "Key": "attention",
+          "Amount": 15
+        },
+        {
+          "Key": "confusion",
+          "Amount": 10
+        },
+        {
+          "Key": "laugh",
+          "Amount": -100
+        }
+      ],
+      "FailureItemEffects": [],
+      "FailureStatEffects": [],
+      "Score": {
+        "Min": 0,
+        "Max": 0
+      },
+      "ActionPoints": 2
+    },
+    {
+      "Key": "explainer",
+      "Name": "Explainer",
+      "SuccessChance": 1,
+      "StatRequirements": [
+        {
+          "Key": "attention",
+          "Amount": 0
+        },
+        {
+          "Key": "confusion",
+          "Amount": -100
+        }
+      ],
+      "ItemRequirements": [],
+      "ItemBenefits": {
+        "Key": "explainer",
+        "Amount": 1
+      },
+      "StatBenefits": [
+        {
+          "Key": "attention",
+          "Amount": -5
+        },
+        {
+          "Key": "confusion",
+          "Amount": -50
+        },
+        {
+          "Key": "laugh",
+          "Amount": -100
+        }
+      ],
+      "FailureItemEffects": [],
+      "FailureStatEffects": [],
+      "Score": {
+        "Min": 0,
+        "Max": 0
+      },
+      "ActionPoints": 2
+    },
+    {
+      "Key": "story",
+      "Name": "Story",
+      "SuccessChance": 1,
+      "StatRequirements": [
+        {
+          "Key": "attention",
+          "Amount": 20
+        },
+        {
+          "Key": "confusion",
+          "Amount": -80
+        }
+      ],
+      "ItemRequirements": [],
+      "ItemBenefits": {
+        "Key": "story",
+        "Amount": 1
+      },
+      "StatBenefits": [
+        {
+          "Key": "attention",
+          "Amount": -5
+        },
+        {
+          "Key": "confusion",
+          "Amount": 5
+        },
+        {
+          "Key": "laugh",
+          "Amount": -100
+        }
+      ],
+      "FailureItemEffects": [],
+      "FailureStatEffects": [],
+      "Score": {
+        "Min": 0,
+        "Max": 0
+      },
+      "ActionPoints": 4
     }
   ],
   "Stats": [
@@ -93,6 +619,18 @@
     {
       "Key": "failure",
       "Name": "Failure Token"
+    },
+    {
+      "Key": "setup",
+      "Name": "Setup"
+    },
+    {
+      "Key": "crowdwork",
+      "Name": "Crowd Work"
+    },
+    {
+      "Key": "story",
+      "Name": "Story"
     }
   ],
   "StartingStats": [
@@ -101,8 +639,6 @@
       "Amount": 100
     }
   ],
-  "StartingItems": [
-
-  ],
-  "StartingActionPoints":  20
+  "StartingItems": [],
+  "StartingActionPoints": 20
 }
