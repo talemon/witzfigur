@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows;
 using Newtonsoft.Json;
 using perform_desktop.Data;
 
@@ -10,13 +12,13 @@ namespace perform_desktop
     public class MainViewModel : INotifyPropertyChanged
     {
         private List<MoveViewModel> _moves = [];
-        private StringBuilder _logContent = new StringBuilder();
+        private readonly StringBuilder _logContent = new();
         private ClearLogCommand? _clearLogCommand;
         private MoveViewModel? _selectedMove;
         private PerformCommand _performCommand;
         private GameData? _gameData;
 
-        private GameState _state;
+        private GameState? _state;
 
         public MainViewModel()
         {
@@ -34,22 +36,41 @@ namespace perform_desktop
 
                     _state = new GameState(_gameData);
 
-                    foreach (var statPair in _gameData.StartingStats)
-                    {
-                        State.TryModifyStat(statPair.Key, statPair.Amount);
-                    }
-                    foreach (var itemPair in _gameData.StartingItems)
-                    {
-                        State.TryModifyInventory(itemPair.Key, itemPair.Amount);
-                    }
-                    State.ActionPoints = _gameData.StartingActionPoints;
+                    InitializeState(_state, _gameData);
                 }
             }
 
             _clearLogCommand = new ClearLogCommand(this);
             _performCommand = new PerformCommand(this);
+            QuitCommand = new RelayCommand(_ =>
+            {
+                if (Application.Current.MainWindow != null) Application.Current.MainWindow.Close();
+            });
 
+            RestartGameCommand = new RelayCommand(_ =>
+            {
+                Debug.Assert(_gameData != null, nameof(_gameData) + " != null");
+                _state = new GameState(_gameData);
+                InitializeState(_state, _gameData);
+                OnPropertyChanged(nameof(State));
+                ClearLog();
+            });
         }
+
+        private void InitializeState(GameState gameState, GameData gameData)
+        {
+            foreach (var statPair in gameData.StartingStats)
+            {
+                gameState.TryModifyStat(statPair.Key, statPair.Amount);
+            }
+            foreach (var itemPair in gameData.StartingItems)
+            {
+                gameState.TryModifyInventory(itemPair.Key, itemPair.Amount);
+            }
+            gameState.ActionPoints = gameData.StartingActionPoints;
+        }
+
+        public event Action? Performed;
 
         public List<MoveViewModel> Moves
         {
@@ -62,10 +83,7 @@ namespace perform_desktop
             }
         }
 
-        public string LogContent
-        {
-            get => _logContent.ToString();
-        }
+        public string LogContent => _logContent.ToString();
 
         public ClearLogCommand? ClearLogCommand
         {
@@ -100,7 +118,10 @@ namespace perform_desktop
             }
         }
 
-        public GameState State => _state;
+        public RelayCommand QuitCommand { get; }
+        public RelayCommand RestartGameCommand { get; }
+
+        public GameState? State => _state;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -129,76 +150,49 @@ namespace perform_desktop
             OnPropertyChanged(nameof(LogContent));
         }
 
-        public bool CanPerform(string key)
-        {
-            var move = _gameData?.GetMove(key);
-            if (move != null)
-            {
-                if (State.ActionPoints < move.ActionPoints)
-                    return false;
-
-                foreach (var statReq in move.StatRequirements)
-                {
-                    if (State.GetStatAmount(statReq.Key) < statReq.Amount)
-                        return false;
-                }
-
-                foreach (var itemReq in move.ItemRequirements)
-                {
-                    if (State.GetItemAmount(itemReq.Key) < itemReq.Amount)
-                        return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         public void Perform(string key)
         {
             var move = _gameData?.GetMove(key);
 
-            if (move == null || CanPerform(key) == false)
+            if (move == null || _state == null || _state.CanPerform(key) == false)
                 return;
 
-            State.ActionPoints -= move.ActionPoints;
+            _state.ActionPoints -= move.ActionPoints;
 
             if (Random.Shared.NextSingle() < move.SuccessChance)
             {
                 LogText("Succes!");
                 foreach (var statBenefit in move.StatBenefits)
                 {
-                    State.TryModifyStat(statBenefit.Key, statBenefit.Amount);
+                    _state.TryModifyStat(statBenefit.Key, statBenefit.Amount);
                 }
                 foreach (var tokenBenefit in move.ItemBenefits)
                 {
-                    State.TryModifyInventory(tokenBenefit.Key, tokenBenefit.Amount);
+                    _state.TryModifyInventory(tokenBenefit.Key, tokenBenefit.Amount);
                 }
 
-                State.Score += Random.Shared.Next(move.Score.Min, move.Score.Max);
+                _state.Score += Random.Shared.Next(move.Score.Min, move.Score.Max);
             }
             else // FAIL
             {
                 LogText("Fail!");
                 foreach (var statEffect in move.FailureStatEffects)
                 {
-                    State.TryModifyStat(statEffect.Key, statEffect.Amount);
+                    _state.TryModifyStat(statEffect.Key, statEffect.Amount);
                 }
                 foreach (var itemEffect in move.FailureItemEffects)
                 {
-                    State.TryModifyInventory(itemEffect.Key, itemEffect.Amount);
+                    _state.TryModifyInventory(itemEffect.Key, itemEffect.Amount);
                 }
             }
 
-            if (State.ActionPoints <= 0)
+            if (_state.ActionPoints <= 0)
             {
                 LogText("GAME OVER!");
             }
 
             OnPropertyChanged(nameof(State));
+            Performed?.Invoke();
         }
     }
 }

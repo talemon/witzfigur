@@ -3,47 +3,25 @@ using perform_desktop.Data;
 
 namespace perform_desktop;
 
-public class GameState
+public class GameState(GameData gameData)
 {
-    private GameData _gameData;
-
     private readonly Dictionary<string, int> _stats = new();
     private readonly Dictionary<string, int> _tokens = new();
 
     public int Score;
     public int ActionPoints;
 
-    public GameState(GameData gameData)
+    private static bool TryModify(Dictionary<string, int> target, string key, int amount)
     {
-        _gameData = gameData;
-    }
-
-    private bool TryModify(Dictionary<string, int> target, string key, int amount)
-    {
-        if (amount < 0)
+        if (target.TryGetValue(key, out var currentAmount))
         {
-            if (_stats.TryGetValue(key, out var currentAmount))
-            {
-                if (currentAmount < Math.Abs(currentAmount))
-                {
-                    return false;
-                }
-
-                _stats[key] += amount;
-            }
-            else
-            {
-                return false;
-            }
+            target[key] = Math.Clamp(currentAmount + amount, 0, 100);
         }
         else
         {
-            if (!_stats.TryAdd(key, amount))
-            {
-                _stats[key] += amount;
-            }
+            target.Add(key, Math.Clamp(amount, 0, 100));
         }
-            
+
         return true;
     }
 
@@ -73,7 +51,7 @@ public class GameState
         str.Append($"Score: {Score} Action Points: {ActionPoints} - Stats: ");
         foreach (var statPair in _stats)
         {
-            var name = _gameData.GetStat(statPair.Key)?.Name ?? statPair.Key;
+            var name = gameData.GetStat(statPair.Key)?.Name ?? statPair.Key;
             str.Append($"{name}: {statPair.Value} ");
         }
 
@@ -81,10 +59,38 @@ public class GameState
 
         foreach (var itemPair in _tokens)
         {
-            var name = _gameData.GetStat(itemPair.Key)?.Name ?? itemPair.Key;
+            var name = gameData.GetStat(itemPair.Key)?.Name ?? itemPair.Key;
             str.Append($"{name}: {itemPair.Value} ");
         }
 
         return str.ToString();
+    }
+
+    public bool CanPerform(string key)
+    {
+        var move = gameData?.GetMove(key);
+        if (move != null)
+        {
+            if (ActionPoints < move.ActionPoints)
+                return false;
+
+            foreach (var statReq in move.StatRequirements)
+            {
+                if (GetStatAmount(statReq.Key) < statReq.Amount)
+                    return false;
+            }
+
+            foreach (var itemReq in move.ItemRequirements)
+            {
+                if (GetItemAmount(itemReq.Key) < itemReq.Amount)
+                    return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+
+        return true;
     }
 }
